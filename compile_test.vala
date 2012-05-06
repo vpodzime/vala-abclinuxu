@@ -1,3 +1,5 @@
+/* file compile_test.vala */
+
 //define our namespace
 namespace compile_test
 {
