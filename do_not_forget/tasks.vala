@@ -1,87 +1,90 @@
-/**
-   Basic class for tasks allowing storing task's description and state.
-*/
-class Task : GLib.Object {
-	
-	/* Private attributes */
-	protected string desc;
+namespace Tasks {
 
-	protected bool _done;
+    /**
+       Basic class for tasks allowing storing task's description and state.
+    */
+    class Task : GLib.Object {
 
-	/* Constructors */
-	public Task (string desc) {
-		this.desc = desc;
-		this.done = false;
-	}
-	
-	public Task.with_state (string desc, bool done) {
-		this.desc = desc;
-		this._done = done;
-	}
+        /* Private attributes */
+        protected string desc;
 
-	/* Properties */
-	public string description {
-		get { return desc; }
-		set { desc = value; }
-	}
+        protected bool _done;
 
-	public virtual bool done {
-		get { return _done; }
-		set { _done = value; }
-	}
+        /* Constructors */
+        public Task (string desc) {
+            this.desc = desc;
+            this.done = false;
+        }
 
-	/* standard to_string() method that enables the @"$obj" functionality */
-	public virtual string to_string() {
-		var done_str = _done ? "done" : "not done";
+        public Task.with_state (string desc, bool done) {
+            this.desc = desc;
+            this._done = done;
+        }
 
-		return @"$desc ($done_str)";
-	}
+        /* Properties */
+        public string description {
+            get { return desc; }
+            set { desc = value; }
+        }
 
-}
+        public virtual bool done {
+            get { return _done; }
+            set { _done = value; }
+        }
 
-/**
-   Class inherited from the Task class adding the progress attribute
+        /* standard to_string() method that enables the @"$obj" functionality */
+        public virtual string to_string() {
+            var done_str = _done ? "done" : "not done";
 
-   @see Task
-*/
-class LongTimeTask : Task {
+            return @"$desc ($done_str)";
+        }
 
-	private int _progress;
+    }
 
-	/* Constructors */
-	public LongTimeTask (string desc) {
-		base(desc);
-		_progress = 0;
-	}
-	
-	public LongTimeTask.with_progress (string desc, int progress) {
-		base(desc);
-		this._progress = progress;
-		this._done = (_progress == 100);
-	}
+    /**
+       Class inherited from the Task class adding the progress attribute
 
-	/* Property */
-	public int progress {
-		get { return _progress; }
-		set {
-			_progress = value;
-			done = (value == 100);
-		}
-	}
+       @see Task
+    */
+    class LongTimeTask : Task {
 
-	/* Override the done property to set the _progress attribute */
-	public override bool done {
-		get { return _done; }
-		set {
-			_done = value;
-			_progress = value ? 0 : 100;
-		}
-	}
+        private int _progress;
 
-	public override string to_string() {
-		var ret = base.to_string();
+        /* Constructors */
+        public LongTimeTask (string desc) {
+            base(desc);
+            _progress = 0;
+        }
 
-		return @"$ret [$progress]";
-	}
-	
+        public LongTimeTask.with_progress (string desc, int progress) {
+            base(desc);
+            this._progress = progress;
+            this._done = (_progress == 100);
+        }
+
+        /* Property */
+        public int progress {
+            get { return _progress; }
+            set {
+                _progress = value;
+                done = (value == 100);
+            }
+        }
+
+        /* Override the done property to set the _progress attribute */
+        public override bool done {
+            get { return _done; }
+            set {
+                _done = value;
+                _progress = value ? 0 : 100;
+            }
+        }
+
+        public override string to_string() {
+            var ret = base.to_string();
+
+            return @"$ret [$progress]";
+        }
+
+    }
 }
