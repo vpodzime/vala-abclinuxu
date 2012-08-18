@@ -1,6 +1,6 @@
 using Tasks;
 
-class App : GLib.Object {
+class TasksTest : GLib.Object {
     public static int main (string[] args) {
         Task task1 = new Task ("buy new helmet");
         var long_time = (task1 is LongTimeTask) ? "LongTimeTask" : "Task";

@@ -1,13 +1,16 @@
 PROGRAM_NAME=DoNotForget
 
-all: tasks.vala do_not_forget.vala
-	@echo "Compiling $(PROGRAM_NAME)"
-	valac do_not_forget.vala tasks.vala -o $(PROGRAM_NAME)
+#all: tasks.vala do_not_forget.vala
+#	@echo "Compiling $(PROGRAM_NAME)"
+#	valac do_not_forget.vala tasks.vala -o $(PROGRAM_NAME)
 
-test: all
+test: tasks_test.vala tasks.vala
+	@echo "Compiling tests"
+	valac tasks_test.vala tasks.vala
 	@echo
-	@echo "Running $(PROGRAM_NAME)"
-	@./$(PROGRAM_NAME)
+	@echo "Running tasks_test.vala"
+	@./tasks_test
 
 clean:
 	-@rm $(PROGRAM_NAME)
+	-@rm tasks_test
