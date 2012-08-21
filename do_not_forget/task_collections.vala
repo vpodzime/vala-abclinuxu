@@ -179,5 +179,89 @@ namespace TaskCollections {
 
     }
 
+
+    /**
+        TaskCollection using automatically growing array as the internal
+        storage.
+    */
+    class GrowableTaskCollection : GLib.Object, TaskCollection {
+
+        private Task[] tasks_array = {};
+        private string _title;
+
+        public GrowableTaskCollection (string title) {
+            _title = title;
+        }
+
+        public void add_task (Task task) {
+            tasks_array += task;
+        }
+
+        public void remove_task (Task task) {
+            int i = -1;
+            bool found = false;
+
+            /* find the task or go through the whole array */
+            while ((i <= tasks_array.length) && !found) {
+                i++;
+                found = tasks_array[i] == task;
+            }
+
+            /* if task not found, just return (nothing to do) */
+            if (!found) {
+                return;
+            }
+
+            /* else remove the task (replace by null) */
+            tasks_array[i] = null;
+
+            /* and move the rest of the tasks to left */
+            for (var j = i; j < (tasks_array.length - 1); j++) {
+                tasks_array[j] = tasks_array[j+1];
+            }
+
+            /* finally, "shrink" the tasks_array */
+            tasks_array.length--;
+        }
+
+        public new Task? get (int index)
+            requires (index < tasks_array.length)
+        {
+            if (index >= tasks_array.length)
+                return null;
+            else
+                return tasks_array[index];
+        }
+
+        public bool contains (Task task) {
+            foreach (var cur_task in tasks_array) {
+                if (task == cur_task)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public string title {
+            get { return _title; }
+            set { _title = value; }
+        }
+
+        public int number_of_tasks {
+            get { return tasks_array.length; }
+        }
+
+        public string dump {
+            owned get {
+                var ret = @"TaskCollection '$_title':\n";
+                foreach (var task in tasks_array)
+                    ret += "%s\n".printf(task.to_string());
+
+                return ret;
+            }
+        }
+
+    }
+
 }
 
