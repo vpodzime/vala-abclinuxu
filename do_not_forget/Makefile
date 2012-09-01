@@ -1,10 +1,16 @@
 PROGRAM_NAME=DoNotForget
 PKGS=gee-1.0
 OPTS=--pkg=$(PKGS)
+SOURCES=tasks.vala \
+	task_collections.vala \
+	task_manager.vala \
+	interfaces.vala \
+	utils.vala \
+	do_not_forget.vala
 
-#all: tasks.vala do_not_forget.vala
-#	@echo "Compiling $(PROGRAM_NAME)"
-#	valac do_not_forget.vala tasks.vala -o $(PROGRAM_NAME)
+all: $(SOURCES)
+	@echo "Compiling $(PROGRAM_NAME)"
+	valac $(OPTS) $(SOURCES) -o $(PROGRAM_NAME)
 
 test: tasks_test task_collections_test task_manager_test
 
