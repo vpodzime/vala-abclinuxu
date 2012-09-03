@@ -67,7 +67,7 @@ namespace Tasks {
             get { return _progress; }
             set {
                 _progress = value;
-                done = (value == 100);
+                _done = (value == 100);
             }
         }
 

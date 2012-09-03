@@ -20,6 +20,9 @@ class TasksTest : GLib.Object {
 
         stdout.printf(@"$task3\n");
 
+        task3.progress = 34;
+        stdout.printf(@"Updated progress: $task3\n");
+
         return 0;
     }
 }
